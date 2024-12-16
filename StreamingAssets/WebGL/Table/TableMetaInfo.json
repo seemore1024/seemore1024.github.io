@@ -1,0 +1,72 @@
+{
+  "ATableDemoC": {
+    "BinName": "ATableDemoC.bin",
+    "BytesName": "ATableDemoC.bytesPB",
+    "SheetCName": "基础表格",
+    "TableMetaName": "ATableDemoC",
+    "TableTypeStr": "ATableDemoC",
+    "Target": "c",
+    "XlsxName": "_表格构建Demo表.xlsx",
+    "_tableForm": "SystemTable"
+  },
+  "BTableDemoBTableDemo1": {
+    "BinName": "BTableDemo.1.bin",
+    "BytesName": "BTableDemo.BTableDemo1.bytesPB",
+    "SheetCName": "第一个配置",
+    "TableMetaName": "BTableDemo",
+    "TableTypeStr": "BTableDemoBTableDemo1",
+    "Target": "c",
+    "XlsxName": "_表格构建Demo表.xlsx",
+    "_tableForm": "SystemTable"
+  },
+  "BTableDemoBTableDemo2": {
+    "BinName": "BTableDemo.2.bin",
+    "BytesName": "BTableDemo.BTableDemo2.bytesPB",
+    "SheetCName": "第二个配置",
+    "TableMetaName": "BTableDemo",
+    "TableTypeStr": "BTableDemoBTableDemo2",
+    "Target": "c",
+    "XlsxName": "_表格构建Demo表.xlsx",
+    "_tableForm": "SystemTable"
+  },
+  "Level": {
+    "BinName": "Level.bin",
+    "BytesName": "Level.bytesPB",
+    "SheetCName": "关卡表",
+    "TableMetaName": "Level",
+    "TableTypeStr": "Level",
+    "Target": "c",
+    "XlsxName": "关卡表.xlsx",
+    "_tableForm": "SystemTable"
+  },
+  "Lexicon": {
+    "BinName": "Lexicon.bin",
+    "BytesName": "Lexicon.bytesPB",
+    "SheetCName": "词库表",
+    "TableMetaName": "Lexicon",
+    "TableTypeStr": "Lexicon",
+    "Target": "c",
+    "XlsxName": "词语库表.xlsx",
+    "_tableForm": "SystemTable"
+  },
+  "Param": {
+    "BinName": "Param.bin",
+    "BytesName": "Param.bytesPB",
+    "SheetCName": "局内参数表",
+    "TableMetaName": "Param",
+    "TableTypeStr": "Param",
+    "Target": "c",
+    "XlsxName": "局内GS表.xlsx",
+    "_tableForm": "SystemTable"
+  },
+  "SysPara": {
+    "BinName": "SysPara.bin",
+    "BytesName": "SysPara.bytesPB",
+    "SheetCName": "系统参数",
+    "TableMetaName": "SysPara",
+    "TableTypeStr": "SysPara",
+    "Target": "c",
+    "XlsxName": "系统参数表.xlsx",
+    "_tableForm": "SystemTable"
+  }
+}
