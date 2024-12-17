@@ -2006,13 +2006,13 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  3417328: function() {Module['emscripten_get_now_backup'] = performance.now;},  
- 3417383: function($0) {performance.now = function() { return $0; };},  
- 3417431: function($0) {performance.now = function() { return $0; };},  
- 3417479: function() {performance.now = Module['emscripten_get_now_backup'];},  
- 3417534: function() {return Module.webglContextAttributes.premultipliedAlpha;},  
- 3417595: function() {return Module.webglContextAttributes.preserveDrawingBuffer;},  
- 3417659: function() {return Module.webglContextAttributes.powerPreference;}
+  3436320: function() {Module['emscripten_get_now_backup'] = performance.now;},  
+ 3436375: function($0) {performance.now = function() { return $0; };},  
+ 3436423: function($0) {performance.now = function() { return $0; };},  
+ 3436471: function() {performance.now = Module['emscripten_get_now_backup'];},  
+ 3436526: function() {return Module.webglContextAttributes.premultipliedAlpha;},  
+ 3436587: function() {return Module.webglContextAttributes.preserveDrawingBuffer;},  
+ 3436651: function() {return Module.webglContextAttributes.powerPreference;}
 };
 
 
@@ -3734,6 +3734,19 @@ var ASM_CONSTS = {
   	return WEBAudio.audioInstanceIdCounter;
   }
 
+  function _JS_Sound_GetData(bufferInstance, ptr, length)
+  {
+  	if (WEBAudio.audioWebEnabled == 0)
+  		return 0;
+  
+  	var soundClip = WEBAudio.audioInstances[bufferInstance];
+  
+  	if (!soundClip)
+  		return 0;
+  
+  	return soundClip.getData(ptr, length);
+  }
+
   function _JS_Sound_GetLength(bufferInstance)
   {
   	if (WEBAudio.audioWebEnabled == 0)
@@ -3758,6 +3771,31 @@ var ASM_CONSTS = {
   	if (sound.buffer || sound.url)
   		return 0;
   	return 1;
+  }
+
+  function _JS_Sound_GetMetaData(bufferInstance, metaData)
+  {
+  	if (WEBAudio.audioWebEnabled == 0)
+  	{
+  		HEAPU32[metaData >> 2] = 0;
+  		HEAPU32[(metaData >> 2) + 1] = 0;
+  		return false;
+  	}
+  
+  	var soundClip = WEBAudio.audioInstances[bufferInstance];
+  
+  	if (!soundClip)
+  	{
+  
+  		HEAPU32[metaData >> 2] = 0;
+  		HEAPU32[(metaData >> 2) + 1] = 0;
+  		return false;
+  	}
+  
+  	HEAPU32[metaData >> 2] = soundClip.getNumberOfChannels();
+  	HEAPU32[(metaData >> 2) + 1] = soundClip.getFrequency();
+  
+  	return true;
   }
 
   function jsAudioPlayPendingBlockedAudio(soundId) {
@@ -3832,6 +3870,18 @@ var ASM_CONSTS = {
   	catch (e) {
   		alert('Web Audio API is not supported in this browser');
   	}
+  }
+
+  function _JS_Sound_IsStopped(channelInstance)
+  {
+  	if (WEBAudio.audioWebEnabled == 0)
+  		return true;
+  	
+  	var channel = WEBAudio.audioInstances[channelInstance];
+  	if (!channel)
+  		return true;
+  
+  	return channel.isStopped();
   }
 
   function jsAudioCreateUncompressedSoundClipFromCompressedAudio(audioData) {
@@ -18366,9 +18416,12 @@ var asmLibraryArg = {
   "JS_ScreenOrientation_Init": _JS_ScreenOrientation_Init,
   "JS_ScreenOrientation_Lock": _JS_ScreenOrientation_Lock,
   "JS_Sound_Create_Channel": _JS_Sound_Create_Channel,
+  "JS_Sound_GetData": _JS_Sound_GetData,
   "JS_Sound_GetLength": _JS_Sound_GetLength,
   "JS_Sound_GetLoadState": _JS_Sound_GetLoadState,
+  "JS_Sound_GetMetaData": _JS_Sound_GetMetaData,
   "JS_Sound_Init": _JS_Sound_Init,
+  "JS_Sound_IsStopped": _JS_Sound_IsStopped,
   "JS_Sound_Load": _JS_Sound_Load,
   "JS_Sound_Load_PCM": _JS_Sound_Load_PCM,
   "JS_Sound_Play": _JS_Sound_Play,
@@ -19327,22 +19380,7 @@ var dynCall_fiiffi = Module["dynCall_fiiffi"] = createExportWrapper("dynCall_fii
 var dynCall_viiififii = Module["dynCall_viiififii"] = createExportWrapper("dynCall_viiififii");
 
 /** @type {function(...*):?} */
-var dynCall_viiiiiii = Module["dynCall_viiiiiii"] = createExportWrapper("dynCall_viiiiiii");
-
-/** @type {function(...*):?} */
-var dynCall_viiji = Module["dynCall_viiji"] = createExportWrapper("dynCall_viiji");
-
-/** @type {function(...*):?} */
-var dynCall_jiiijii = Module["dynCall_jiiijii"] = createExportWrapper("dynCall_jiiijii");
-
-/** @type {function(...*):?} */
-var dynCall_viiijiii = Module["dynCall_viiijiii"] = createExportWrapper("dynCall_viiijiii");
-
-/** @type {function(...*):?} */
-var dynCall_vijii = Module["dynCall_vijii"] = createExportWrapper("dynCall_vijii");
-
-/** @type {function(...*):?} */
-var dynCall_viiffi = Module["dynCall_viiffi"] = createExportWrapper("dynCall_viiffi");
+var dynCall_fiffffi = Module["dynCall_fiffffi"] = createExportWrapper("dynCall_fiffffi");
 
 /** @type {function(...*):?} */
 var dynCall_iiiifii = Module["dynCall_iiiifii"] = createExportWrapper("dynCall_iiiifii");
@@ -19354,7 +19392,22 @@ var dynCall_iiifii = Module["dynCall_iiifii"] = createExportWrapper("dynCall_iii
 var dynCall_viiiifii = Module["dynCall_viiiifii"] = createExportWrapper("dynCall_viiiifii");
 
 /** @type {function(...*):?} */
-var dynCall_fiffffi = Module["dynCall_fiffffi"] = createExportWrapper("dynCall_fiffffi");
+var dynCall_viiffi = Module["dynCall_viiffi"] = createExportWrapper("dynCall_viiffi");
+
+/** @type {function(...*):?} */
+var dynCall_viiji = Module["dynCall_viiji"] = createExportWrapper("dynCall_viiji");
+
+/** @type {function(...*):?} */
+var dynCall_viiiiiii = Module["dynCall_viiiiiii"] = createExportWrapper("dynCall_viiiiiii");
+
+/** @type {function(...*):?} */
+var dynCall_jiiijii = Module["dynCall_jiiijii"] = createExportWrapper("dynCall_jiiijii");
+
+/** @type {function(...*):?} */
+var dynCall_viiijiii = Module["dynCall_viiijiii"] = createExportWrapper("dynCall_viiijiii");
+
+/** @type {function(...*):?} */
+var dynCall_vijii = Module["dynCall_vijii"] = createExportWrapper("dynCall_vijii");
 
 /** @type {function(...*):?} */
 var dynCall_jdi = Module["dynCall_jdi"] = createExportWrapper("dynCall_jdi");
@@ -21091,28 +21144,6 @@ function invoke_viiiji(index,a1,a2,a3,a4,a5,a6) {
   }
 }
 
-function invoke_viiji(index,a1,a2,a3,a4,a5) {
-  var sp = stackSave();
-  try {
-    dynCall_viiji(index,a1,a2,a3,a4,a5);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_vijii(index,a1,a2,a3,a4,a5) {
-  var sp = stackSave();
-  try {
-    dynCall_vijii(index,a1,a2,a3,a4,a5);
-  } catch(e) {
-    stackRestore(sp);
-    if (e !== e+0) throw e;
-    _setThrew(1, 0);
-  }
-}
-
 function invoke_jdi(index,a1,a2) {
   var sp = stackSave();
   try {
@@ -21128,6 +21159,28 @@ function invoke_vijiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8) {
   var sp = stackSave();
   try {
     dynCall_vijiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0) throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_viiji(index,a1,a2,a3,a4,a5) {
+  var sp = stackSave();
+  try {
+    dynCall_viiji(index,a1,a2,a3,a4,a5);
+  } catch(e) {
+    stackRestore(sp);
+    if (e !== e+0) throw e;
+    _setThrew(1, 0);
+  }
+}
+
+function invoke_vijii(index,a1,a2,a3,a4,a5) {
+  var sp = stackSave();
+  try {
+    dynCall_vijii(index,a1,a2,a3,a4,a5);
   } catch(e) {
     stackRestore(sp);
     if (e !== e+0) throw e;
